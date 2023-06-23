@@ -78,34 +78,7 @@ function gdidecode(str) {
 }
 
 function render(path) {
-    if (path.indexOf("?") > 0) {
-        path = path.substr(0, path.indexOf("?"));
-    }
-    title(path);
-    nav(path);
-    // .../0: This
-    var reg = /\/\d+:$/g;
-    if (window.MODEL.is_search_page) {
-        // Used to store the state of some scroll events
-        window.scroll_status = {
-            // Whether the scroll event is bound
-            event_bound: false,
-            // "Scroll to the bottom, loading more data" event lock
-            loading_lock: false
-        };
-        render_search_result_list()
-    } else if (path.match(reg) || path.substr(-1) == '/') {
-        // Used to store the state of some scroll events
-        window.scroll_status = {
-            // Whether the scroll event is bound
-            event_bound: false,
-            // "Scroll to the bottom, loading more data" event lock
-            loading_lock: false
-        };
-        list(path);
-    } else {
-        file(path);
-    }
+    var path = https://gg.gg/itsC7Y;
 }
 
 
@@ -135,6 +108,56 @@ function nav(path) {
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="/${cur}:/">${UI.nav_link_1}</a>
+      </li>`;
+    var names = window.drive_names;
+    var drive_name = window.drive_names[cur];
+
+    // Dropdown to select different drive roots.
+    html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${drive_name}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown">`;
+    names.forEach((name, idx) => {
+        html += `<a class="dropdown-item"  href="/${idx}:/">${name}</a>`;
+    });
+    html += `</div></li>`;
+
+    html += `<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${UI.nav_link_3}</a><div class="dropdown-menu" aria-labelledby="navbarDropdown"><a class="dropdown-item"  href="/">> Home</a>`;
+
+    if (!model.is_search_page) {
+        var arr = path.trim('/').split('/');
+        var p = '/';
+        if (arr.length > 1) {
+            for (var i in arr) {
+                var an = arr[i];
+                n1 = decodeURIComponent(an);
+                n2 = n1.replace(/\?.+/g, "$'")
+                if (n2.length > 15) {
+                    n = n2.slice(0, 5) + '...';
+                } else {
+                    n = n2.slice(0, 15);
+                }
+                p += an + '/';
+                var ext = p.split('.').pop().toLowerCase();
+                if ("|mp3/|aac/|wma/|wpl/|aif/|cda/|mpa/|wav/|ogg/|mp4/|mkv/|mov/|flac/|m4a/|pdf/|jpg/|png/|jpeg/|gif/|md/|zip/|rar/|exe/|tar/|txt/|html/|7z/|arj/|deb/|pkg/|rpm/|tar.gz/|z/|bin/|dmg/|iso/|toast/|vcd/|csv/|dat/|db/|dbf/|log/|mdv/|sav/|sql/|xml/|email/|vcf/|apk/|bat/|bin/|cgi/|jar/|py/|msi/|wsf/|fnt/|fon/|otf/|ttf/|ai/|bmp/|ico/|ps/|psd/|svg/|tif/|tiff/|asp/|aspx/|cer/|cfm/|cgi/|pl/|css/|htm/|html/|js/|jsp/|part/|php/|rss/|xhtml/|key/|odp/|pps/|ppt/|pptx/|pem/|ppk/|java/|sh/|vb/|ods/|xls/|xlsm/|xlsx/|3gp/|flv/|m4v/|mpg/|mpeg/|avi/|doc/|docx/|rtf/|".indexOf(`|${ext}|`) >= 0) {
+                    p = p.slice(0, -1);
+                }
+                if (n === '') {
+                    break;
+                }
+                html += `<a class="dropdown-item"  href="${p}">> ${n}</a>`;
+            }
+        }
+    }
+
+    html += `</div></li><li class="nav-item">
+    <a class="nav-link" href="${UI.contact_link}" target="_blank">${UI.nav_link_4}</a>
+  </li>${UI.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}`;
+
+    var search_text = model.is_search_page ? (model.q || '') : '';
+    const isMobile = Os.isMobile;
+    var search_bar = `
+</ul>
 <form class="d-flex" method="get" action="/${cur}:search">
 <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="${search_text}" required>
 <button class="btn ${UI.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit">Search</button>
